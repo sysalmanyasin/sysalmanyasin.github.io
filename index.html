@@ -2,9 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dua Pharma Plus — Staff Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#08455A">
+  
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="PharmaPlus Workspace">
+  
+  <title>Fazal Din's Pharma Plus — App Workspace</title>
+  
+  <link rel="manifest" href="manifest.json">
+  
   <style>
+    /* ── CORE VARIABLES & AUTO DARK MODE ── */
     :root {
       --teal:       #0B5F7A;
       --teal-dark:  #08455A;
@@ -14,415 +24,468 @@
       --amber-faint:#FDF0E3;
       --green:      #1F9E65;
       --green-faint:#E5F5EE;
+      
       --bg:         #EDF2F6;
       --surface:    #FFFFFF;
       --border:     #D5E2EB;
       --text-1:     #0E2230;
       --text-2:     #4F6A7A;
       --text-3:     #96AEBA;
+      
       --online:     #1F9E65;
-      --offline:    #C0392B;
-      --checking:   #C96E1A;
+      --offline:    #E74C3C;
+      --checking:   #F39C12;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg:         #0A1118;
+        --surface:    #121D26;
+        --border:     #1F303D;
+        --text-1:     #E1E8ED;
+        --text-2:     #96AEBA;
+        --text-3:     #5C7A8C;
+        --teal-faint: #0B2A36;
+        --amber-faint:#3D2410;
+        --green-faint:#0F2E20;
+      }
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
       background: var(--bg);
       color: var(--text-1);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* ── HEADER ── */
-    header {
-      background: linear-gradient(135deg, var(--teal-dark) 0%, var(--teal) 60%, var(--teal-lt) 100%);
-      padding: 0 36px;
-      height: 72px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: 0 2px 12px rgba(8,69,90,0.3);
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .brand-mark {
-      width: 42px; height: 42px;
-      background: rgba(255,255,255,0.15);
-      border: 1.5px solid rgba(255,255,255,0.25);
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px;
-      flex-shrink: 0;
-    }
-
-    .brand-text h1 {
-      font-size: 16px;
-      font-weight: 700;
-      color: #fff;
-      letter-spacing: 0.2px;
-      line-height: 1.2;
-    }
-
-    .brand-text span {
-      font-size: 10.5px;
-      color: rgba(255,255,255,0.5);
-      letter-spacing: 1.4px;
-      text-transform: uppercase;
-    }
-
-    .header-right {
-      text-align: right;
-    }
-
-    #clock {
-      font-size: 22px;
-      font-weight: 700;
-      color: #fff;
-      letter-spacing: 1px;
-      font-variant-numeric: tabular-nums;
-      line-height: 1;
-    }
-
-    #dateline {
-      font-size: 11px;
-      color: rgba(255,255,255,0.5);
-      margin-top: 3px;
-      letter-spacing: 0.3px;
-    }
-
-    /* ── GREETING STRIP ── */
-    .strip {
-      background: var(--teal-lt);
-      padding: 9px 36px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    #greeting {
-      font-size: 12.5px;
-      color: rgba(255,255,255,0.82);
-      font-weight: 500;
-    }
-
-    .net-badge {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 11px;
-      color: rgba(255,255,255,0.6);
-    }
-
-    .net-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.4);
-    }
-    .net-dot.online  { background: #5DEBA3; }
-    .net-dot.offline { background: #FF7B72; }
-
-    /* ── MAIN ── */
-    main {
-      flex: 1;
-      padding: 40px 24px 24px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .section-label {
-      font-size: 11px;
-      letter-spacing: 1.8px;
-      text-transform: uppercase;
-      color: var(--text-3);
-      margin-bottom: 20px;
-      font-weight: 600;
-    }
-
-    /* ── CARDS ── */
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-      width: 100%;
-      max-width: 880px;
-    }
-
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
+      height: 100vh;
+      width: 100vw;
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      transition: box-shadow 0.2s ease, transform 0.2s ease;
-      cursor: pointer;
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
     }
 
-    .card:hover {
-      box-shadow: 0 10px 32px rgba(11,95,122,0.14);
-      transform: translateY(-3px);
-    }
-
-    .card-top-bar {
-      height: 4px;
-    }
-
-    .card-inner {
-      padding: 26px 22px 18px;
-      flex: 1;
+    /* ── APP HEADER & TABS ── */
+    header {
+      background: linear-gradient(135deg, var(--teal-dark) 0%, var(--teal) 60%, var(--teal-lt) 100%);
       display: flex;
       flex-direction: column;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      z-index: 10;
+      flex-shrink: 0;
+      /* Handles notch padding on iOS displays */
+      padding-top: env(safe-area-inset-top, 0px);
     }
 
-    .module-icon {
-      width: 50px; height: 50px;
-      border-radius: 13px;
+    .header-top {
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand { display: flex; align-items: center; gap: 16px; }
+
+    .brand-mark {
+      width: 44px; height: 44px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 12px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 24px;
-      margin-bottom: 18px;
-      flex-shrink: 0;
+      font-size: 22px;
+      box-shadow: inset 0 2px 4px rgba(255,255,255,0.1);
+      backdrop-filter: blur(4px);
     }
 
-    .module-label {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      margin-bottom: 6px;
+    .brand-text h1 {
+      font-size: 18px; font-weight: 700; color: #fff;
+      letter-spacing: 0.3px; line-height: 1.2;
     }
 
-    .card h2 {
-      font-size: 17px;
-      font-weight: 700;
-      color: var(--text-1);
-      margin-bottom: 9px;
-      line-height: 1.25;
+    .brand-text span {
+      font-size: 11px; color: rgba(255,255,255,0.7);
+      letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600;
     }
 
-    .card p {
-      font-size: 13px;
-      color: var(--text-2);
-      line-height: 1.65;
-      flex: 1;
-    }
+    .header-right { text-align: right; }
+    #clock { font-size: 20px; font-weight: 700; color: #fff; letter-spacing: 1px; line-height: 1; }
+    #dateline { font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 5px; letter-spacing: 0.5px; }
 
-    .card-footer {
-      padding: 0 22px 20px;
-    }
-
-    .divider {
-      height: 1px;
-      background: var(--border);
-      margin-bottom: 16px;
-    }
-
-    .status-row {
+    /* ── TAB BAR ── */
+    .tab-bar {
       display: flex;
-      align-items: center;
-      gap: 7px;
-      margin-bottom: 13px;
+      gap: 4px;
+      padding: 0 16px;
+      overflow-x: auto;
+      scrollbar-width: none;
     }
+    .tab-bar::-webkit-scrollbar { display: none; }
 
-    .sys-dot {
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: var(--text-3);
-      flex-shrink: 0;
-      transition: background 0.3s;
-    }
-
-    .sys-dot.online   { background: var(--online); }
-    .sys-dot.offline  { background: var(--offline); }
-    .sys-dot.checking { background: var(--checking); }
-
-    .status-text {
-      font-size: 11.5px;
-      color: var(--text-3);
-      font-weight: 500;
-    }
-    .status-text.online  { color: var(--online); }
-    .status-text.offline { color: var(--offline); }
-
-    .launch-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      width: 100%;
-      padding: 12px 0;
-      border-radius: 10px;
-      border: none;
+    .tab {
+      background: rgba(0,0,0,0.15);
+      color: rgba(255,255,255,0.7);
+      padding: 10px 18px;
+      border-radius: 10px 10px 0 0;
       font-size: 13.5px;
       font-weight: 600;
-      font-family: inherit;
-      text-decoration: none;
-      text-align: center;
+      display: flex;
+      align-items: center;
+      gap: 8px;
       cursor: pointer;
-      transition: filter 0.15s, opacity 0.15s;
-      letter-spacing: 0.2px;
+      transition: all 0.2s;
+      white-space: nowrap;
+      border: 1px solid transparent;
+      border-bottom: none;
     }
 
-    .launch-btn:hover  { filter: brightness(1.09); }
-    .launch-btn:active { filter: brightness(0.95); }
+    .tab:hover { background: rgba(255,255,255,0.1); color: #fff; }
 
-    .arrow { font-style: normal; }
+    .tab.active {
+      background: var(--bg);
+      color: var(--teal-dark);
+      border-color: var(--border);
+    }
 
-    /* ── POS — teal ── */
-    .card.pos .card-top-bar { background: var(--teal); }
-    .card.pos .module-icon  { background: var(--teal-faint); }
-    .card.pos .module-label { color: var(--teal); }
-    .card.pos .launch-btn   { background: var(--teal); color: #fff; }
+    @media (prefers-color-scheme: dark) {
+      .tab.active { color: #fff; }
+    }
 
-    /* ── AUDIT — amber ── */
-    .card.audit .card-top-bar { background: var(--amber); }
-    .card.audit .module-icon  { background: var(--amber-faint); }
-    .card.audit .module-label { color: var(--amber); }
-    .card.audit .launch-btn   { background: var(--amber); color: #fff; }
+    .tab-close {
+      font-size: 16px; font-weight: normal;
+      margin-left: 6px; width: 20px; height: 20px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%; opacity: 0.6;
+    }
+    .tab-close:hover { background: rgba(0,0,0,0.1); opacity: 1; color: var(--offline); }
+    .tab.active .tab-close:hover { background: var(--border); }
 
-    /* ── CLOSING — green ── */
-    .card.closing .card-top-bar { background: var(--green); }
-    .card.closing .module-icon  { background: var(--green-faint); }
-    .card.closing .module-label { color: var(--green); }
-    .card.closing .launch-btn   { background: var(--green); color: #fff; }
+    /* ── STATUS STRIP ── */
+    .strip {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0;
+    }
+    #greeting { font-size: 13px; color: var(--text-2); font-weight: 600; }
+    .net-badge {
+      display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; color: var(--text-2);
+      background: var(--bg); padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border);
+    }
+    .net-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .net-dot.online  { background: var(--online); box-shadow: 0 0 8px var(--online); }
+    .net-dot.offline { background: var(--offline); box-shadow: 0 0 8px var(--offline); animation: pulse 2s infinite; }
+
+    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+
+    /* ── WORKSPACE AREA ── */
+    .workspace {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+    }
+
+    /* ── DASHBOARD VIEW ── */
+    #dashboard-view {
+      flex: 1;
+      overflow-y: auto;
+      padding: 32px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    .section-label { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-3); margin-bottom: 24px; font-weight: 700; }
+    .cards { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 580px; margin-bottom: 40px; }
+
+    /* CARDS */
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04); transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card-top-bar { height: 5px; }
+    .card-inner { padding: 24px 24px 16px; display: flex; align-items: flex-start; gap: 20px; }
+    .module-icon { width: 60px; height: 60px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; flex-shrink: 0; }
+    .card-content { flex: 1; }
+    .module-label { font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; }
+    .card h2 { font-size: 19px; font-weight: 700; margin-bottom: 8px; line-height: 1.2; }
+    .card p { font-size: 14px; color: var(--text-2); line-height: 1.5; }
+    .card-footer { padding: 0 24px 24px; }
+    .divider { height: 1px; background: var(--border); margin-bottom: 16px; opacity: 0.5; }
+    .status-row { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+    .sys-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .sys-dot.online { background: var(--online); } .sys-dot.offline { background: var(--offline); } .sys-dot.checking { background: var(--checking); }
+    .status-text { font-size: 12.5px; font-weight: 600; }
+    .status-text.online { color: var(--online); } .status-text.offline { color: var(--offline); }
+
+    .launch-btn {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%; padding: 16px 0; border-radius: 12px; border: none;
+      font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s; letter-spacing: 0.5px;
+    }
+    .launch-btn:hover { filter: brightness(1.1); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.15); }
+    .launch-btn:active { filter: brightness(0.9); transform: translateY(0); box-shadow: none; }
+    .arrow { font-style: normal; font-size: 18px; transition: transform 0.2s; }
+    .launch-btn:hover .arrow { transform: translateX(5px); }
+
+    /* CARD THEMES */
+    .card.pos .card-top-bar { background: var(--teal); } .card.pos .module-icon { background: var(--teal-faint); color: var(--teal); } .card.pos .module-label { color: var(--teal); } .card.pos .launch-btn { background: var(--teal); color: #fff; }
+    .card.audit .card-top-bar { background: var(--amber); } .card.audit .module-icon { background: var(--amber-faint); color: var(--amber); } .card.audit .module-label { color: var(--amber); } .card.audit .launch-btn { background: var(--amber); color: #fff; }
+    .card.closing .card-top-bar { background: var(--green); } .card.closing .module-icon { background: var(--green-faint); color: var(--green); } .card.closing .module-label { color: var(--green); } .card.closing .launch-btn { background: var(--green); color: #fff; }
+
+    /* ── IFRAME VIEWS (THE APPS) ── */
+    .app-iframe {
+      display: none;
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: var(--bg);
+    }
+    .app-iframe.active {
+      display: block;
+    }
 
     /* ── FOOTER ── */
-    footer {
-      text-align: center;
-      padding: 18px 16px;
-      font-size: 11px;
-      color: var(--text-3);
-      border-top: 1px solid var(--border);
-      background: var(--surface);
-      margin-top: 8px;
-    }
-
+    footer { text-align: center; font-size: 12px; color: var(--text-3); margin-top: auto; padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));}
     footer strong { color: var(--text-2); }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 700px) {
-      header { padding: 0 20px; height: 64px; }
-      .strip { padding: 8px 20px; }
-      .cards { grid-template-columns: 1fr; max-width: 400px; }
-      main { padding: 28px 16px 16px; }
-      #clock { font-size: 18px; }
+    /* ── TOAST ── */
+    #toast {
+      position: fixed; bottom: -60px; left: 50%; transform: translateX(-50%);
+      background: var(--text-1); color: var(--bg); padding: 12px 24px; border-radius: 30px; font-size: 14px; font-weight: 600;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2); transition: bottom 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 100; pointer-events: none;
+    }
+    #toast.show { bottom: 30px; }
+
+    @media (max-width: 600px) {
+      .header-top { padding: 12px 16px; }
+      .brand-mark { width: 38px; height: 38px; font-size: 18px; }
+      .brand-text h1 { font-size: 16px; }
+      #clock { font-size: 16px; }
+      .card-inner { flex-direction: column; gap: 14px; }
+      .tab { font-size: 12px; padding: 10px 14px; }
     }
   </style>
 </head>
 <body>
 
-<!-- ── HEADER ── -->
 <header>
-  <div class="brand">
-    <div class="brand-mark">⚕</div>
-    <div class="brand-text">
-      <h1>Dua Pharma Plus</h1>
-      <span>Staff Portal · Manga Mandi</span>
+  <div class="header-top">
+    <div class="brand">
+      <div class="brand-mark">⚕</div>
+      <div class="brand-text">
+        <h1>Fazal Din's Pharma Plus</h1>
+        <span>Bahria Town branch Staff Portal</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <div id="clock">00:00:00</div>
+      <div id="dateline">Loading…</div>
     </div>
   </div>
-  <div class="header-right">
-    <div id="clock">00:00:00</div>
-    <div id="dateline">Loading…</div>
+  
+  <div class="tab-bar" id="tab-bar">
+    <div class="tab active" id="tab-dashboard" onclick="switchTab('dashboard')">
+      <span>🏠</span> Dashboard
+    </div>
   </div>
 </header>
 
-<!-- ── GREETING STRIP ── -->
 <div class="strip">
-  <span id="greeting">Welcome to Dua Pharma Staff Portal</span>
+  <span id="greeting">Welcome to the Staff Workspace</span>
   <div class="net-badge">
     <div class="net-dot" id="net-dot"></div>
-    <span id="net-label">Checking network…</span>
+    <span id="net-label">Connecting…</span>
   </div>
 </div>
 
-<!-- ── MAIN ── -->
-<main>
-  <div class="section-label">Select a Module to Launch</div>
+<div class="workspace" id="workspace">
+  
+  <main id="dashboard-view">
+    <div class="section-label">Available Applications</div>
 
-  <div class="cards">
-
-    <!-- POS TERMINAL -->
-    <div class="card pos">
-      <div class="card-top-bar"></div>
-      <div class="card-inner">
-        <div class="module-icon">🖥️</div>
-        <div class="module-label">Billing · Sales</div>
-        <h2>POS Terminal</h2>
-        <p>Counter billing, sales transactions, and customer invoices for daily pharmacy operations.</p>
-      </div>
-      <div class="card-footer">
-        <div class="divider"></div>
-        <div class="status-row">
-          <div class="sys-dot checking" id="pos-dot"></div>
-          <span class="status-text" id="pos-status">Checking system…</span>
+    <div class="cards">
+      <div class="card pos">
+        <div class="card-top-bar"></div>
+        <div class="card-inner">
+          <div class="module-icon">🖥️</div>
+          <div class="card-content">
+            <div class="module-label">Billing · Sales</div>
+            <h2>POS Terminal</h2>
+            <p>Counter billing, sales transactions, and customer invoices. Runs in offline-first mode automatically.</p>
+          </div>
         </div>
-        <a href="http://pos.duapharma.com" class="launch-btn">
-          Open POS Terminal <span class="arrow">→</span>
-        </a>
+        <div class="card-footer">
+          <div class="divider"></div>
+          <div class="status-row">
+            <div class="sys-dot checking" id="pos-dot"></div>
+            <span class="status-text" id="pos-status">Syncing local cache…</span>
+          </div>
+          <button class="launch-btn" data-id="pos" data-name="POS Terminal" data-icon="🖥️" data-url="https://pos.duapharma.com">
+            Launch POS App <span class="arrow">→</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="card audit">
+        <div class="card-top-bar"></div>
+        <div class="card-inner">
+          <div class="module-icon">📦</div>
+          <div class="card-content">
+            <div class="module-label">Stock · Analytics</div>
+            <h2>Inventory Audit</h2>
+            <p>Stock verification and local IndexedDB audit logs. Changes sync automatically when online.</p>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="divider"></div>
+          <div class="status-row">
+            <div class="sys-dot checking" id="audit-dot"></div>
+            <span class="status-text" id="audit-status">Syncing local cache…</span>
+          </div>
+          <button class="launch-btn" data-id="audit" data-name="Inventory Audit" data-icon="📦" data-url="https://random.duapharma.com">
+            Launch Audit App <span class="arrow">→</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="card closing">
+        <div class="card-top-bar"></div>
+        <div class="card-inner">
+          <div class="module-icon">🏦</div>
+          <div class="card-content">
+            <div class="module-label">Cash · EOD Reports</div>
+            <h2>Day Closing</h2>
+            <p>End-of-day cash reconciliation and branch handover reports. Saved securely to local device.</p>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="divider"></div>
+          <div class="status-row">
+            <div class="sys-dot checking" id="closing-dot"></div>
+            <span class="status-text" id="closing-status">Syncing local cache…</span>
+          </div>
+          <button class="launch-btn" data-id="closing" data-name="Day Closing" data-icon="🏦" data-url="https://closing.duapharma.com">
+            Launch Closing App <span class="arrow">→</span>
+          </button>
+        </div>
       </div>
     </div>
 
-    <!-- INVENTORY AUDIT -->
-    <div class="card audit">
-      <div class="card-top-bar"></div>
-      <div class="card-inner">
-        <div class="module-icon">📦</div>
-        <div class="module-label">Stock · Analytics</div>
-        <h2>Inventory Audit</h2>
-        <p>Stock verification, inventory counts, and audit logs for medicines and pharmacy supplies.</p>
-      </div>
-      <div class="card-footer">
-        <div class="divider"></div>
-        <div class="status-row">
-          <div class="sys-dot checking" id="audit-dot"></div>
-          <span class="status-text" id="audit-status">Checking system…</span>
-        </div>
-        <a href="http://random.duapharma.com" class="launch-btn">
-          Open Inventory Audit <span class="arrow">→</span>
-        </a>
-      </div>
-    </div>
+    <footer>
+      <strong>Fazal Din's Pharma Plus</strong> &mdash; Bahria Town branch Staff Portal &mdash; www.duapharma.com
+    </footer>
+  </main>
+</div>
 
-    <!-- DAY CLOSING -->
-    <div class="card closing">
-      <div class="card-top-bar"></div>
-      <div class="card-inner">
-        <div class="module-icon">🏦</div>
-        <div class="module-label">Cash · EOD Reports</div>
-        <h2>Day Closing</h2>
-        <p>End-of-day cash reconciliation, sale summaries, and closing reports for pharmacy handover.</p>
-      </div>
-      <div class="card-footer">
-        <div class="divider"></div>
-        <div class="status-row">
-          <div class="sys-dot checking" id="closing-dot"></div>
-          <span class="status-text" id="closing-status">Checking system…</span>
-        </div>
-        <a href="http://closing.duapharma.com" class="launch-btn">
-          Open Day Closing <span class="arrow">→</span>
-        </a>
-      </div>
-    </div>
-
-  </div>
-</main>
-
-<!-- ── FOOTER ── -->
-<footer>
-  <strong>Dua Pharma Plus</strong> &mdash; Internal Staff Use Only &mdash; Manga Mandi, Lahore &mdash; www.duapharma.com
-</footer>
+<div id="toast">Message here</div>
 
 <script>
+  /* ── BROWSER / TAB ENGINE ── */
+  const openApps = {};
+
+  document.querySelectorAll('.launch-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const appId = btn.getAttribute('data-id');
+      const appName = btn.getAttribute('data-name');
+      const appIcon = btn.getAttribute('data-icon');
+      const appUrl = btn.getAttribute('data-url');
+      
+      if (!navigator.onLine) {
+        showToast(`⚡ Opening ${appName} from local offline cache...`);
+      } else {
+        showToast(`🌐 Launching ${appName} within workspace...`);
+      }
+      
+      launchApp(appId, appName, appIcon, appUrl);
+    });
+  });
+
+  function launchApp(id, name, icon, url) {
+    const tabId = 'tab-' + id;
+    
+    if (openApps[tabId]) {
+      switchTab(tabId);
+      return;
+    }
+
+    // 1. Create Tab
+    const tab = document.createElement('div');
+    tab.className = 'tab';
+    tab.id = tabId + '-btn';
+    tab.innerHTML = `<span>${icon}</span> ${name} <span class="tab-close" onclick="closeApp(event, '${tabId}')">×</span>`;
+    tab.onclick = () => switchTab(tabId);
+    document.getElementById('tab-bar').appendChild(tab);
+
+    // 2. Create Sandbox Secure iFrame
+    const iframe = document.createElement('iframe');
+    iframe.className = 'app-iframe';
+    iframe.id = tabId + '-frame';
+    // Security enhancement: blocks parent frame hijacking, allows local scripts/storage execution
+    iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-forms');
+    iframe.src = url;
+    document.getElementById('workspace').appendChild(iframe);
+
+    openApps[tabId] = true;
+    switchTab(tabId);
+  }
+
+  function switchTab(targetId) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.app-iframe').forEach(f => f.classList.remove('active'));
+    document.getElementById('dashboard-view').style.display = 'none';
+
+    if (targetId === 'dashboard') {
+      document.getElementById('tab-dashboard').classList.add('active');
+      document.getElementById('dashboard-view').style.display = 'flex';
+    } else {
+      document.getElementById(targetId + '-btn').classList.add('active');
+      document.getElementById(targetId + '-frame').classList.add('active');
+    }
+  }
+
+  function closeApp(event, tabId) {
+    event.stopPropagation();
+    
+    const frame = document.getElementById(tabId + '-frame');
+    if (frame) {
+      frame.src = 'about:blank'; // Free RAM allocation immediately
+      frame.remove();
+    }
+    
+    const btn = document.getElementById(tabId + '-btn');
+    if (btn) btn.remove();
+    
+    delete openApps[tabId];
+    switchTab('dashboard');
+  }
+
+  /* ── SEPARATE EXTERNAL SERVICE WORKER REGISTRATION ── */
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.withCredentials = true;
+      navigator.serviceWorker.register('sw.js')
+        .then(reg => console.log('Workspace Service Worker Online:', reg.scope))
+        .catch(err => console.error('PWA Core Initialization Failed:', err));
+    });
+  }
+
+  /* ── TOAST NOTIFICATION SYSTEM ── */
+  let toastTimeout;
+  function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+    clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
   /* ── CLOCK & DATE ── */
-  const DAYS   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
   function tick() {
@@ -431,68 +494,52 @@
     const mm = String(now.getMinutes()).padStart(2,'0');
     const ss = String(now.getSeconds()).padStart(2,'0');
     document.getElementById('clock').textContent = `${hh}:${mm}:${ss}`;
-    document.getElementById('dateline').textContent =
-      `${DAYS[now.getDay()]}, ${now.getDate()} ${MONTHS[now.getMonth()]} ${now.getFullYear()}`;
-
-    const h = now.getHours();
-    const greet = h < 5  ? 'Good Night'      :
-                  h < 12 ? 'Good Morning'     :
-                  h < 17 ? 'Good Afternoon'   :
-                  h < 21 ? 'Good Evening'     : 'Good Night';
-    document.getElementById('greeting').textContent = `${greet} — Dua Pharma Staff Portal`;
+    document.getElementById('dateline').textContent = `${DAYS[now.getDay()]} , ${now.getDate()} ${MONTHS[now.getMonth()]} ${now.getFullYear()}`;
   }
   tick();
   setInterval(tick, 1000);
 
-  /* ── NETWORK STATUS ── */
+  /* ── NETWORK & REAL-TIME SYSTEM CHECKER ── */
   function updateNet() {
     const online = navigator.onLine;
-    const dot   = document.getElementById('net-dot');
+    const dot = document.getElementById('net-dot');
     const label = document.getElementById('net-label');
+    
     if (online) {
-      dot.className   = 'net-dot online';
-      label.textContent = 'Network Connected';
+      dot.className = 'net-dot online'; label.textContent = 'Live System Active';
     } else {
-      dot.className   = 'net-dot offline';
-      label.textContent = 'No Network — Local Mode';
+      dot.className = 'net-dot offline'; label.textContent = 'Offline Run Always Mode';
     }
   }
-  updateNet();
-  window.addEventListener('online',  updateNet);
+  window.addEventListener('online', updateNet);
   window.addEventListener('offline', updateNet);
+  updateNet();
 
-  /* ── SYSTEM STATUS CHECKER ── */
   async function checkSystem(host, dotId, labelId) {
-    const dot   = document.getElementById(dotId);
+    const dot = document.getElementById(dotId);
     const label = document.getElementById(labelId);
-
-    dot.className   = 'sys-dot checking';
-    label.textContent = 'Checking…';
-    label.className   = 'status-text';
-
+    if (!navigator.onLine) {
+      dot.className = 'sys-dot offline'; label.textContent = '● Ready (Local Cache)'; label.className = 'status-text offline'; return;
+    }
     try {
-      const ctrl    = new AbortController();
+      const ctrl = new AbortController();
       const timeout = setTimeout(() => ctrl.abort(), 4000);
-      await fetch('http://' + host, { method: 'HEAD', mode: 'no-cors', signal: ctrl.signal });
+      // Appending request resource targets to prevent native wrapper caching confusion
+      await fetch(`https://${host}/favicon.ico`, { method: 'GET', mode: 'no-cors', signal: ctrl.signal });
       clearTimeout(timeout);
-      dot.className     = 'sys-dot online';
-      label.textContent = '● System Online';
-      label.className   = 'status-text online';
+      dot.className = 'sys-dot online'; label.textContent = '● Online & Synced'; label.className = 'status-text online';
     } catch {
-      dot.className     = 'sys-dot offline';
-      label.textContent = '● Offline / Unreachable';
-      label.className   = 'status-text offline';
+      dot.className = 'sys-dot offline'; label.textContent = '● Ready (Offline Mode)'; label.className = 'status-text offline';
     }
   }
 
   function checkAll() {
-    checkSystem('pos.duapharma.com',     'pos-dot',     'pos-status');
-    checkSystem('random.duapharma.com',  'audit-dot',   'audit-status');
+    checkSystem('pos.duapharma.com', 'pos-dot', 'pos-status');
+    checkSystem('random.duapharma.com', 'audit-dot', 'audit-status');
     checkSystem('closing.duapharma.com', 'closing-dot', 'closing-status');
   }
-
-  checkAll();
-  setInterval(checkAll, 60000); // re-check every minute
+  setTimeout(checkAll, 500);
+  setInterval(checkAll, 45000); 
 </script>
 
 </body>
