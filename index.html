@@ -7,48 +7,24 @@
   
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="PharmaPlus Workspace">
+  <meta name="apple-mobile-web-app-title" content="PharmaPlus">
   
   <title>Fazal Din's Pharma Plus — App Workspace</title>
   
   <link rel="manifest" href="manifest.json">
   
   <style>
-    /* ── CORE VARIABLES & AUTO DARK MODE ── */
+    /* ── CORE VARIABLES ── */
     :root {
       --teal:       #0B5F7A;
       --teal-dark:  #08455A;
-      --teal-lt:    #1A83A8;
-      --teal-faint: #E8F4F8;
       --amber:      #C96E1A;
-      --amber-faint:#FDF0E3;
       --green:      #1F9E65;
-      --green-faint:#E5F5EE;
-      
       --bg:         #EDF2F6;
       --surface:    #FFFFFF;
       --border:     #D5E2EB;
       --text-1:     #0E2230;
       --text-2:     #4F6A7A;
-      --text-3:     #96AEBA;
-      
-      --online:     #1F9E65;
-      --offline:    #E74C3C;
-      --checking:   #F39C12;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg:         #0A1118;
-        --surface:    #121D26;
-        --border:     #1F303D;
-        --text-1:     #E1E8ED;
-        --text-2:     #96AEBA;
-        --text-3:     #5C7A8C;
-        --teal-faint: #0B2A36;
-        --amber-faint:#3D2410;
-        --green-faint:#0F2E20;
-      }
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -66,176 +42,167 @@
       user-select: none;
     }
 
-    /* ── APP HEADER & TABS ── */
+    /* ── ULTRA-COMPACT HEADER (48px) ── */
     header {
-      background: linear-gradient(135deg, var(--teal-dark) 0%, var(--teal) 60%, var(--teal-lt) 100%);
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      z-index: 10;
-      flex-shrink: 0;
-      /* Handles notch padding on iOS displays */
-      padding-top: env(safe-area-inset-top, 0px);
-    }
-
-    .header-top {
-      padding: 16px 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      background: var(--teal-dark);
+      padding: 0 12px;
+      height: 48px;
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      z-index: 100;
+      /* Handles notch padding on iOS if needed */
+      padding-top: env(safe-area-inset-top, 0px);
+      height: calc(48px + env(safe-area-inset-top, 0px));
     }
 
-    .brand { display: flex; align-items: center; gap: 16px; }
-
-    .brand-mark {
-      width: 44px; height: 44px;
-      background: rgba(255,255,255,0.15);
-      border: 1px solid rgba(255,255,255,0.3);
-      border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 22px;
-      box-shadow: inset 0 2px 4px rgba(255,255,255,0.1);
-      backdrop-filter: blur(4px);
-    }
-
-    .brand-text h1 {
-      font-size: 18px; font-weight: 700; color: #fff;
-      letter-spacing: 0.3px; line-height: 1.2;
-    }
-
-    .brand-text span {
-      font-size: 11px; color: rgba(255,255,255,0.7);
-      letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600;
-    }
-
-    .header-right { text-align: right; }
-    #clock { font-size: 20px; font-weight: 700; color: #fff; letter-spacing: 1px; line-height: 1; }
-    #dateline { font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 5px; letter-spacing: 0.5px; }
-
-    /* ── TAB BAR ── */
-    .tab-bar {
-      display: flex;
-      gap: 4px;
-      padding: 0 16px;
-      overflow-x: auto;
-      scrollbar-width: none;
-    }
-    .tab-bar::-webkit-scrollbar { display: none; }
-
-    .tab {
-      background: rgba(0,0,0,0.15);
-      color: rgba(255,255,255,0.7);
-      padding: 10px 18px;
-      border-radius: 10px 10px 0 0;
-      font-size: 13.5px;
-      font-weight: 600;
+    /* Brand Group */
+    .brand-container {
       display: flex;
       align-items: center;
       gap: 8px;
-      cursor: pointer;
-      transition: all 0.2s;
+      min-width: fit-content;
+    }
+    .brand-logo {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      object-fit: cover;
+    }
+    .brand-text h1 {
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
       white-space: nowrap;
+    }
+    
+    /* Inline Tabs System */
+    .tabs-navigation-bar {
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      height: 100%;
+      margin: 0 16px;
+      flex: 1;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .tabs-navigation-bar::-webkit-scrollbar { display: none; }
+
+    .workspace-tab {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.7);
+      padding: 0 14px;
+      border-radius: 8px 8px 0 0;
+      font-size: 13px;
+      font-weight: 500;
+      white-space: nowrap;
+      cursor: pointer;
+      height: 38px;
+      transition: all 0.2s ease;
       border: 1px solid transparent;
       border-bottom: none;
     }
-
-    .tab:hover { background: rgba(255,255,255,0.1); color: #fff; }
-
-    .tab.active {
+    .workspace-tab:hover { background: rgba(255, 255, 255, 0.2); color: #fff; }
+    .workspace-tab.active-tab {
       background: var(--bg);
       color: var(--teal-dark);
-      border-color: var(--border);
-    }
-
-    @media (prefers-color-scheme: dark) {
-      .tab.active { color: #fff; }
+      font-weight: 700;
     }
 
     .tab-close {
-      font-size: 16px; font-weight: normal;
-      margin-left: 6px; width: 20px; height: 20px;
-      display: flex; align-items: center; justify-content: center;
-      border-radius: 50%; opacity: 0.6;
+      margin-left: 6px;
+      font-size: 16px;
+      line-height: 1;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      opacity: 0.6;
     }
-    .tab-close:hover { background: rgba(0,0,0,0.1); opacity: 1; color: var(--offline); }
-    .tab.active .tab-close:hover { background: var(--border); }
+    .tab-close:hover { background: rgba(0,0,0,0.1); opacity: 1; color: #E74C3C; }
 
-    /* ── STATUS STRIP ── */
-    .strip {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: 10px 24px;
-      display: flex; align-items: center; justify-content: space-between;
-      flex-shrink: 0;
+    /* Compact Status Indicators */
+    .system-status-aside {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #ffffff;
     }
-    #greeting { font-size: 13px; color: var(--text-2); font-weight: 600; }
-    .net-badge {
-      display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; color: var(--text-2);
-      background: var(--bg); padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border);
+    .sync-status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #7F8C8D;
     }
-    .net-dot { width: 8px; height: 8px; border-radius: 50%; }
-    .net-dot.online  { background: var(--online); box-shadow: 0 0 8px var(--online); }
-    .net-dot.offline { background: var(--offline); box-shadow: 0 0 8px var(--offline); animation: pulse 2s infinite; }
-
+    .sync-status-dot.online { background: var(--green); box-shadow: 0 0 8px var(--green); }
+    .sync-status-dot.offline { background: #E74C3C; box-shadow: 0 0 8px #E74C3C; animation: pulse 2s infinite; }
+    
     @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
-    /* ── WORKSPACE AREA ── */
-    .workspace {
+    .compact-timer {
+      font-family: 'Courier New', Courier, monospace;
+      font-weight: 700;
+      font-size: 14px;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 4px 8px;
+      border-radius: 6px;
+      letter-spacing: 1px;
+    }
+
+    /* ── MAIN WORKSPACE CONTAINER ── */
+    .sub-app-viewport-container {
       flex: 1;
       position: relative;
-      overflow: hidden;
+      background: var(--bg);
       display: flex;
+      overflow: hidden;
     }
 
     /* ── DASHBOARD VIEW ── */
     #dashboard-view {
-      flex: 1;
+      width: 100%;
+      height: 100%;
       overflow-y: auto;
-      padding: 32px 20px;
+      padding: 24px 16px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      width: 100%;
     }
+    .section-label { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-2); margin-bottom: 20px; font-weight: 700; opacity: 0.8; }
+    .cards { display: flex; flex-direction: column; gap: 16px; width: 100%; max-width: 500px; }
 
-    .section-label { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-3); margin-bottom: 24px; font-weight: 700; }
-    .cards { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 580px; margin-bottom: 40px; }
-
-    /* CARDS */
     .card {
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04); transition: transform 0.2s, box-shadow 0.2s;
+      border-radius: 12px; overflow: hidden; display: flex; flex-direction: column;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
-    .card-top-bar { height: 5px; }
-    .card-inner { padding: 24px 24px 16px; display: flex; align-items: flex-start; gap: 20px; }
-    .module-icon { width: 60px; height: 60px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; flex-shrink: 0; }
+    .card-top-bar { height: 4px; }
+    .card-inner { padding: 16px; display: flex; align-items: center; gap: 16px; }
+    .module-icon { width: 48px; height: 48px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
     .card-content { flex: 1; }
-    .module-label { font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; }
-    .card h2 { font-size: 19px; font-weight: 700; margin-bottom: 8px; line-height: 1.2; }
-    .card p { font-size: 14px; color: var(--text-2); line-height: 1.5; }
-    .card-footer { padding: 0 24px 24px; }
-    .divider { height: 1px; background: var(--border); margin-bottom: 16px; opacity: 0.5; }
-    .status-row { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
-    .sys-dot { width: 8px; height: 8px; border-radius: 50%; }
-    .sys-dot.online { background: var(--online); } .sys-dot.offline { background: var(--offline); } .sys-dot.checking { background: var(--checking); }
-    .status-text { font-size: 12.5px; font-weight: 600; }
-    .status-text.online { color: var(--online); } .status-text.offline { color: var(--offline); }
-
+    .card h2 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .card p { font-size: 13px; color: var(--text-2); line-height: 1.4; }
+    
     .launch-btn {
-      display: flex; align-items: center; justify-content: center; gap: 10px;
-      width: 100%; padding: 16px 0; border-radius: 12px; border: none;
-      font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s; letter-spacing: 0.5px;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: calc(100% - 32px); margin: 0 16px 16px; padding: 12px 0; border-radius: 8px; border: none;
+      font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.15s;
     }
-    .launch-btn:hover { filter: brightness(1.1); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.15); }
-    .launch-btn:active { filter: brightness(0.9); transform: translateY(0); box-shadow: none; }
-    .arrow { font-style: normal; font-size: 18px; transition: transform 0.2s; }
-    .launch-btn:hover .arrow { transform: translateX(5px); }
+    .launch-btn:active { transform: scale(0.98); }
 
     /* CARD THEMES */
-    .card.pos .card-top-bar { background: var(--teal); } .card.pos .module-icon { background: var(--teal-faint); color: var(--teal); } .card.pos .module-label { color: var(--teal); } .card.pos .launch-btn { background: var(--teal); color: #fff; }
-    .card.audit .card-top-bar { background: var(--amber); } .card.audit .module-icon { background: var(--amber-faint); color: var(--amber); } .card.audit .module-label { color: var(--amber); } .card.audit .launch-btn { background: var(--amber); color: #fff; }
-    .card.closing .card-top-bar { background: var(--green); } .card.closing .module-icon { background: var(--green-faint); color: var(--green); } .card.closing .module-label { color: var(--green); } .card.closing .launch-btn { background: var(--green); color: #fff; }
+    .card.pos .card-top-bar { background: var(--teal); } .card.pos .module-icon { background: #E8F4F8; color: var(--teal); } .card.pos .launch-btn { background: var(--teal); color: #fff; }
+    .card.audit .card-top-bar { background: var(--amber); } .card.audit .module-icon { background: #FDF0E3; color: var(--amber); } .card.audit .launch-btn { background: var(--amber); color: #fff; }
+    .card.closing .card-top-bar { background: var(--green); } .card.closing .module-icon { background: #E5F5EE; color: var(--green); } .card.closing .launch-btn { background: var(--green); color: #fff; }
 
     /* ── IFRAME VIEWS (THE APPS) ── */
     .app-iframe {
@@ -249,64 +216,45 @@
       display: block;
     }
 
-    /* ── FOOTER ── */
-    footer { text-align: center; font-size: 12px; color: var(--text-3); margin-top: auto; padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));}
-    footer strong { color: var(--text-2); }
-
     /* ── TOAST ── */
     #toast {
       position: fixed; bottom: -60px; left: 50%; transform: translateX(-50%);
-      background: var(--text-1); color: var(--bg); padding: 12px 24px; border-radius: 30px; font-size: 14px; font-weight: 600;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.2); transition: bottom 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 100; pointer-events: none;
+      background: var(--text-1); color: var(--bg); padding: 10px 20px; border-radius: 20px; font-size: 13px; font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: bottom 0.3s ease; z-index: 1000; pointer-events: none;
     }
-    #toast.show { bottom: 30px; }
+    #toast.show { bottom: 20px; }
 
     @media (max-width: 600px) {
-      .header-top { padding: 12px 16px; }
-      .brand-mark { width: 38px; height: 38px; font-size: 18px; }
-      .brand-text h1 { font-size: 16px; }
-      #clock { font-size: 16px; }
-      .card-inner { flex-direction: column; gap: 14px; }
-      .tab { font-size: 12px; padding: 10px 14px; }
+      .brand-text h1 { display: none; } /* Saves massive space on small phones */
     }
   </style>
 </head>
 <body>
 
 <header>
-  <div class="header-top">
-    <div class="brand">
-      <div class="brand-mark">⚕</div>
-      <div class="brand-text">
-        <h1>Fazal Din's Pharma Plus</h1>
-        <span>Bahria Town branch Staff Portal</span>
-      </div>
-    </div>
-    <div class="header-right">
-      <div id="clock">00:00:00</div>
-      <div id="dateline">Loading…</div>
+  <div class="brand-container">
+    <img src="icon-192.png" class="brand-logo" alt="⚕" onerror="this.style.display='none'">
+    <div class="brand-text">
+      <h1>Pharma Plus</h1>
     </div>
   </div>
   
-  <div class="tab-bar" id="tab-bar">
-    <div class="tab active" id="tab-dashboard" onclick="switchTab('dashboard')">
+  <nav class="tabs-navigation-bar" id="tab-bar">
+    <div class="workspace-tab active-tab" id="tab-dashboard-btn" onclick="switchTab('dashboard')">
       <span>🏠</span> Dashboard
     </div>
+    </nav>
+
+  <div class="system-status-aside">
+    <div class="sync-status-dot" id="net-dot" title="Network Status"></div>
+    <div class="compact-timer" id="topbar-clock">--:--</div>
   </div>
 </header>
 
-<div class="strip">
-  <span id="greeting">Welcome to the Staff Workspace</span>
-  <div class="net-badge">
-    <div class="net-dot" id="net-dot"></div>
-    <span id="net-label">Connecting…</span>
-  </div>
-</div>
-
-<div class="workspace" id="workspace">
+<main class="sub-app-viewport-container" id="workspace">
   
-  <main id="dashboard-view">
-    <div class="section-label">Available Applications</div>
+  <div id="dashboard-view">
+    <div class="section-label">Workspace Applications</div>
 
     <div class="cards">
       <div class="card pos">
@@ -314,21 +262,13 @@
         <div class="card-inner">
           <div class="module-icon">🖥️</div>
           <div class="card-content">
-            <div class="module-label">Billing · Sales</div>
             <h2>POS Terminal</h2>
-            <p>Counter billing, sales transactions, and customer invoices. Runs in offline-first mode automatically.</p>
+            <p>Counter billing, sales, and invoices.</p>
           </div>
         </div>
-        <div class="card-footer">
-          <div class="divider"></div>
-          <div class="status-row">
-            <div class="sys-dot checking" id="pos-dot"></div>
-            <span class="status-text" id="pos-status">Syncing local cache…</span>
-          </div>
-          <button class="launch-btn" data-id="pos" data-name="POS Terminal" data-icon="🖥️" data-url="https://pos.duapharma.com">
-            Launch POS App <span class="arrow">→</span>
-          </button>
-        </div>
+        <button class="launch-btn" data-id="pos" data-name="POS Terminal" data-icon="🖥️" data-url="https://pos.duapharma.com">
+          Launch App →
+        </button>
       </div>
 
       <div class="card audit">
@@ -336,21 +276,13 @@
         <div class="card-inner">
           <div class="module-icon">📦</div>
           <div class="card-content">
-            <div class="module-label">Stock · Analytics</div>
             <h2>Inventory Audit</h2>
-            <p>Stock verification and local IndexedDB audit logs. Changes sync automatically when online.</p>
+            <p>Stock verification and rack logs.</p>
           </div>
         </div>
-        <div class="card-footer">
-          <div class="divider"></div>
-          <div class="status-row">
-            <div class="sys-dot checking" id="audit-dot"></div>
-            <span class="status-text" id="audit-status">Syncing local cache…</span>
-          </div>
-          <button class="launch-btn" data-id="audit" data-name="Inventory Audit" data-icon="📦" data-url="https://random.duapharma.com">
-            Launch Audit App <span class="arrow">→</span>
-          </button>
-        </div>
+        <button class="launch-btn" data-id="audit" data-name="Inventory Audit" data-icon="📦" data-url="https://random.duapharma.com">
+          Launch App →
+        </button>
       </div>
 
       <div class="card closing">
@@ -358,31 +290,20 @@
         <div class="card-inner">
           <div class="module-icon">🏦</div>
           <div class="card-content">
-            <div class="module-label">Cash · EOD Reports</div>
             <h2>Day Closing</h2>
-            <p>End-of-day cash reconciliation and branch handover reports. Saved securely to local device.</p>
+            <p>Cash reconciliation and shift reports.</p>
           </div>
         </div>
-        <div class="card-footer">
-          <div class="divider"></div>
-          <div class="status-row">
-            <div class="sys-dot checking" id="closing-dot"></div>
-            <span class="status-text" id="closing-status">Syncing local cache…</span>
-          </div>
-          <button class="launch-btn" data-id="closing" data-name="Day Closing" data-icon="🏦" data-url="https://closing.duapharma.com">
-            Launch Closing App <span class="arrow">→</span>
-          </button>
-        </div>
+        <button class="launch-btn" data-id="closing" data-name="Day Closing" data-icon="🏦" data-url="https://closing.duapharma.com">
+          Launch App →
+        </button>
       </div>
     </div>
+  </div>
 
-    <footer>
-      <strong>Fazal Din's Pharma Plus</strong> &mdash; Bahria Town branch Staff Portal &mdash; www.duapharma.com
-    </footer>
-  </main>
-</div>
+</main>
 
-<div id="toast">Message here</div>
+<div id="toast">Message</div>
 
 <script>
   /* ── BROWSER / TAB ENGINE ── */
@@ -395,12 +316,7 @@
       const appIcon = btn.getAttribute('data-icon');
       const appUrl = btn.getAttribute('data-url');
       
-      if (!navigator.onLine) {
-        showToast(`⚡ Opening ${appName} from local offline cache...`);
-      } else {
-        showToast(`🌐 Launching ${appName} within workspace...`);
-      }
-      
+      showToast(navigator.onLine ? `Launching ${appName}...` : `Opening ${appName} (Offline Mode)...`);
       launchApp(appId, appName, appIcon, appUrl);
     });
   });
@@ -413,19 +329,18 @@
       return;
     }
 
-    // 1. Create Tab
+    // 1. Create Tab in Top Bar
     const tab = document.createElement('div');
-    tab.className = 'tab';
+    tab.className = 'workspace-tab';
     tab.id = tabId + '-btn';
     tab.innerHTML = `<span>${icon}</span> ${name} <span class="tab-close" onclick="closeApp(event, '${tabId}')">×</span>`;
     tab.onclick = () => switchTab(tabId);
     document.getElementById('tab-bar').appendChild(tab);
 
-    // 2. Create Sandbox Secure iFrame
+    // 2. Create Sandbox Secure iFrame in Viewport
     const iframe = document.createElement('iframe');
     iframe.className = 'app-iframe';
     iframe.id = tabId + '-frame';
-    // Security enhancement: blocks parent frame hijacking, allows local scripts/storage execution
     iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-forms');
     iframe.src = url;
     document.getElementById('workspace').appendChild(iframe);
@@ -435,25 +350,27 @@
   }
 
   function switchTab(targetId) {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    // Reset all tabs
+    document.querySelectorAll('.workspace-tab').forEach(t => t.classList.remove('active-tab'));
     document.querySelectorAll('.app-iframe').forEach(f => f.classList.remove('active'));
     document.getElementById('dashboard-view').style.display = 'none';
 
+    // Activate selected
     if (targetId === 'dashboard') {
-      document.getElementById('tab-dashboard').classList.add('active');
+      document.getElementById('tab-dashboard-btn').classList.add('active-tab');
       document.getElementById('dashboard-view').style.display = 'flex';
     } else {
-      document.getElementById(targetId + '-btn').classList.add('active');
+      document.getElementById(targetId + '-btn').classList.add('active-tab');
       document.getElementById(targetId + '-frame').classList.add('active');
     }
   }
 
   function closeApp(event, tabId) {
-    event.stopPropagation();
+    event.stopPropagation(); // Prevents triggering the tab click event
     
     const frame = document.getElementById(tabId + '-frame');
     if (frame) {
-      frame.src = 'about:blank'; // Free RAM allocation immediately
+      frame.src = 'about:blank'; // Clear memory allocation immediately
       frame.remove();
     }
     
@@ -461,85 +378,52 @@
     if (btn) btn.remove();
     
     delete openApps[tabId];
-    switchTab('dashboard');
+    switchTab('dashboard'); // Fallback to main dashboard view
   }
 
   /* ── SEPARATE EXTERNAL SERVICE WORKER REGISTRATION ── */
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.withCredentials = true;
       navigator.serviceWorker.register('sw.js')
-        .then(reg => console.log('Workspace Service Worker Online:', reg.scope))
-        .catch(err => console.error('PWA Core Initialization Failed:', err));
+        .then(reg => console.log('SW Registered:', reg.scope))
+        .catch(err => console.error('SW Failed:', err));
     });
   }
 
-  /* ── TOAST NOTIFICATION SYSTEM ── */
+  /* ── TOAST NOTIFICATION ── */
   let toastTimeout;
   function showToast(message) {
     const toast = document.getElementById('toast');
     toast.textContent = message;
     toast.classList.add('show');
     clearTimeout(toastTimeout);
-    toastTimeout = setTimeout(() => toast.classList.remove('show'), 3000);
+    toastTimeout = setTimeout(() => toast.classList.remove('show'), 2500);
   }
 
-  /* ── CLOCK & DATE ── */
-  const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-
+  /* ── COMPACT CLOCK ── */
   function tick() {
     const now = new Date();
     const hh = String(now.getHours()).padStart(2,'0');
     const mm = String(now.getMinutes()).padStart(2,'0');
-    const ss = String(now.getSeconds()).padStart(2,'0');
-    document.getElementById('clock').textContent = `${hh}:${mm}:${ss}`;
-    document.getElementById('dateline').textContent = `${DAYS[now.getDay()]} , ${now.getDate()} ${MONTHS[now.getMonth()]} ${now.getFullYear()}`;
+    document.getElementById('topbar-clock').textContent = `${hh}:${mm}`;
   }
   tick();
   setInterval(tick, 1000);
 
-  /* ── NETWORK & REAL-TIME SYSTEM CHECKER ── */
+  /* ── NETWORK INDICATOR ── */
   function updateNet() {
-    const online = navigator.onLine;
     const dot = document.getElementById('net-dot');
-    const label = document.getElementById('net-label');
-    
-    if (online) {
-      dot.className = 'net-dot online'; label.textContent = 'Live System Active';
+    if (navigator.onLine) {
+      dot.className = 'sync-status-dot online';
+      dot.setAttribute('title', 'Online & Synced');
     } else {
-      dot.className = 'net-dot offline'; label.textContent = 'Offline Run Always Mode';
+      dot.className = 'sync-status-dot offline';
+      dot.setAttribute('title', 'Offline (Local Cache)');
     }
   }
   window.addEventListener('online', updateNet);
   window.addEventListener('offline', updateNet);
   updateNet();
-
-  async function checkSystem(host, dotId, labelId) {
-    const dot = document.getElementById(dotId);
-    const label = document.getElementById(labelId);
-    if (!navigator.onLine) {
-      dot.className = 'sys-dot offline'; label.textContent = '● Ready (Local Cache)'; label.className = 'status-text offline'; return;
-    }
-    try {
-      const ctrl = new AbortController();
-      const timeout = setTimeout(() => ctrl.abort(), 4000);
-      // Appending request resource targets to prevent native wrapper caching confusion
-      await fetch(`https://${host}/favicon.ico`, { method: 'GET', mode: 'no-cors', signal: ctrl.signal });
-      clearTimeout(timeout);
-      dot.className = 'sys-dot online'; label.textContent = '● Online & Synced'; label.className = 'status-text online';
-    } catch {
-      dot.className = 'sys-dot offline'; label.textContent = '● Ready (Offline Mode)'; label.className = 'status-text offline';
-    }
-  }
-
-  function checkAll() {
-    checkSystem('pos.duapharma.com', 'pos-dot', 'pos-status');
-    checkSystem('random.duapharma.com', 'audit-dot', 'audit-status');
-    checkSystem('closing.duapharma.com', 'closing-dot', 'closing-status');
-  }
-  setTimeout(checkAll, 500);
-  setInterval(checkAll, 45000); 
 </script>
 
 </body>
